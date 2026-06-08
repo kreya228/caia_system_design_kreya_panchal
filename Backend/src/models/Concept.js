@@ -62,6 +62,13 @@ const conceptSchema = new mongoose.Schema({
   timestamps: true,
 });
 
+// Create text index for full-text search on title, content, and description
+conceptSchema.index({
+  title: 'text',
+  content: 'text',
+  description: 'text',
+});
+
 const Concept = mongoose.models.Concept || mongoose.model('Concept', conceptSchema);
 
 export default Concept;
