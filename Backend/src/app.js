@@ -4,12 +4,18 @@ import categoryRouter, { subcategoryRouter, tagRouter, patternRouter } from './r
 // Disable searchRouter since the required searchValidator.js file is missing in the workspace codebase
 // import searchRouter from './routes/searchRoutes.js';
 import filterRouter from './routes/filterRoutes.js';
+import authRouter from './routes/authRoutes.js';
+import adminRouter from './routes/adminRoutes.js';
+import { generalLimiter } from './middlewares/rateLimiter.js';
 
 const app = express();
 
 // Enable standard parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Apply general rate limiter to all /api routes
+app.use('/api', generalLimiter);
 
 // Custom CORS middleware to avoid external packages
 app.use((req, res, next) => {
@@ -36,6 +42,12 @@ app.use('/api/v1/patterns', patternRouter);
 
 // Filter Routes
 app.use('/api/v1/filter', filterRouter);
+
+// Auth Routes (register, login, profile, logout)
+app.use('/api/v1/auth', authRouter);
+
+// Admin Routes (protected: JWT + admin role required)
+app.use('/api/v1/admin', adminRouter);
 
 // 404 Not Found Middleware
 app.use((req, res, next) => {
