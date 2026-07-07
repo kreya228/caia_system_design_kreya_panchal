@@ -1,0 +1,181 @@
+/* ─── Tailwind CSS v4 ──────────────────────────────────────────────────────── */
+@import "tailwindcss";
+
+/* ─── Google Fonts ─────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* ─── CSS Custom Properties (Design Tokens) ───────────────────────────────── */
+:root {
+  /* Brand Colors */
+  --color-primary-400: #818cf8;
+  --color-primary-500: #6366f1;
+  --color-primary-600: #4f46e5;
+
+  --color-accent-400: #22d3ee;
+  --color-accent-500: #06b6d4;
+  --color-accent-600: #0891b2;
+
+  /* Semantic Colors */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error:   #f43f5e;
+
+  /* Surface Palette (dark mode) */
+  --color-surface:          #0f0f1a;
+  --color-surface-elevated: #1a1a2e;
+  --color-surface-card:     #16213e;
+  --color-border:           rgba(148, 163, 184, 0.12);
+
+  /* Text */
+  --color-on-surface:       #e2e8f0;
+  --color-on-surface-muted: #94a3b8;
+  --color-on-surface-faint: #475569;
+
+  /* Shadows */
+  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.35);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+
+  /* Transitions */
+  --transition-base: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Tailwind v4 Theme Extension ─────────────────────────────────────────── */
+@theme {
+  --color-primary-400: var(--color-primary-400);
+  --color-primary-500: var(--color-primary-500);
+  --color-primary-600: var(--color-primary-600);
+  --color-accent-400:  var(--color-accent-400);
+  --color-accent-500:  var(--color-accent-500);
+  --color-accent-600:  var(--color-accent-600);
+  --color-surface:          var(--color-surface);
+  --color-surface-elevated: var(--color-surface-elevated);
+  --color-surface-card:     var(--color-surface-card);
+  --color-border:           var(--color-border);
+  --color-on-surface:       var(--color-on-surface);
+  --color-on-surface-muted: var(--color-on-surface-muted);
+  --color-on-surface-faint: var(--color-on-surface-faint);
+
+  --font-family-sans: "Inter", "Roboto", "Helvetica", "Arial", sans-serif;
+  --font-family-mono: "JetBrains Mono", "Fira Code", monospace;
+
+  --shadow-glow: var(--shadow-glow);
+  --shadow-card: var(--shadow-card);
+}
+
+/* ─── Global Reset & Base ──────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  min-height: 100dvh;
+  line-height: 1.6;
+}
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Scrollbar ────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar        { width: 6px; height: 6px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: #334155; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+/* ─── Typography Utilities ─────────────────────────────────────────────────── */
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-primary-400), var(--color-accent-400));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.font-mono {
+  font-family: var(--font-family-mono);
+}
+
+/* ─── Focus Ring ───────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ─── Link Reset ───────────────────────────────────────────────────────────── */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ─── Selection ────────────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(99, 102, 241, 0.3);
+  color: #e2e8f0;
+}
+
+/* ─── Animations ───────────────────────────────────────────────────────────── */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(99, 102, 241, 0.3); }
+  50%       { box-shadow: 0 0 24px rgba(99, 102, 241, 0.6); }
+}
+
+.animate-fade-in      { animation: fade-in 0.3s var(--transition-smooth) both; }
+.animate-slide-right  { animation: slide-in-right 0.3s var(--transition-smooth) both; }
+.animate-pulse-glow   { animation: pulse-glow 2s ease-in-out infinite; }
+
+/* ─── Glass Morphism Card ──────────────────────────────────────────────────── */
+.glass-card {
+  background: rgba(26, 26, 46, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+}
+
+/* ─── Gradient Button ──────────────────────────────────────────────────────── */
+.btn-gradient {
+  background: linear-gradient(135deg, var(--color-primary-500), var(--color-accent-500));
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 24px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity var(--transition-base), transform var(--transition-base);
+}
+
+.btn-gradient:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn-gradient:active {
+  transform: translateY(0);
+}
