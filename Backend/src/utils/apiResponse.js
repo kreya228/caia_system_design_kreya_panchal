@@ -1,4 +1,9 @@
 /**
+ * Utility functions to format and send standard API JSON responses.
+ * Supported features: Analytics, Concepts, Filters, and Health Checks.
+ */
+
+/**
  * Sends a standardized success API response.
  *
  * @param {import('express').Response} res - Express response object

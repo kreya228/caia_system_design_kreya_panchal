@@ -22,7 +22,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Global API Prefix /api/v1
+// Global API Prefix /api/v1 (mounts health checks and mongodb aggregation analytics)
 app.use('/api/v1', apiRouter);
 
 // Category & Taxonomy Routes

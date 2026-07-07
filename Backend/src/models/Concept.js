@@ -57,6 +57,21 @@ const conceptSchema = new mongoose.Schema({
     type: Date,
     default: null,
   },
+  difficulty: {
+    type: String,
+    trim: true,
+    index: true,
+  },
+  language: {
+    type: String,
+    trim: true,
+    index: true,
+  },
+  pattern: {
+    type: String,
+    trim: true,
+    index: true,
+  },
   history: [historySchema],
 }, {
   timestamps: true,
