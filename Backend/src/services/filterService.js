@@ -32,18 +32,18 @@ export const filterConcepts = async ({
     // 3. Get pagination offset parameters
     const { skip } = getPaginationParams({ page, limit });
 
-    // 4. Query Mongoose database. Using .lean() to ensure arbitrary fields like
-    // difficulty, pattern, language (which are not in schema.js) are parsed successfully.
-    const results = await Concept.find(filter)
-      .sort(sortObj)
-      .skip(skip)
-      .limit(limit)
-      .lean();
+    // 4. Query Mongoose database concurrently using Promise.all to optimize performance.
+    // Using .lean() to ensure arbitrary fields are parsed successfully and to skip overhead.
+    const [results, totalCount] = await Promise.all([
+      Concept.find(filter)
+        .sort(sortObj)
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      Concept.countDocuments(filter),
+    ]);
 
-    // 5. Query total matched count for pagination metadata
-    const totalCount = await Concept.countDocuments(filter);
-
-    // 6. Format standard paginated response payload
+    // 5. Format standard paginated response payload
     return formatPaginatedResponse(results, totalCount, page, limit);
   } catch (error) {
     throw new Error(`Database filter query failed: ${error.message}`);

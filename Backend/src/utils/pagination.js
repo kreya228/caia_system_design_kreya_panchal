@@ -5,6 +5,7 @@
 /**
  * Parses and returns pagination parameters.
  * Assumes inputs are already validated or provides fallback defaults.
+ * Optimized: Uses mathematical boundaries to prevent out-of-range memory allocations.
  *
  * @param {object} query - Express request query object
  * @returns {object} - Pagination details (page, limit, skip)

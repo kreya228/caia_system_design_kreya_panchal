@@ -165,6 +165,7 @@ export const getConceptsByTagPipeline = (tag) => [
 
 /**
  * Builds a pipeline to get the counts of concepts: total, active, and archived.
+ * Optimized: Uses single-stage grouping to minimize collection scanning.
  *
  * @returns {Array<object>} Aggregation pipeline stages
  */
@@ -189,6 +190,7 @@ export const getTotalConceptsPipeline = () => [
 
 /**
  * Builds a pipeline to get counts of active concepts grouped by category.
+ * Optimized: Uses { isArchived: 1, category: 1 } compound index scan during match and sort.
  *
  * @returns {Array<object>} Aggregation pipeline stages
  */

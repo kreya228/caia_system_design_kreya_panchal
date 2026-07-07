@@ -84,6 +84,16 @@ conceptSchema.index({
   description: 'text',
 });
 
+// Compound indexes to optimize common filtering & sorting queries
+conceptSchema.index({ isArchived: 1, category: 1 });
+conceptSchema.index({ isArchived: 1, difficulty: 1 });
+conceptSchema.index({ isArchived: 1, language: 1 });
+conceptSchema.index({ isArchived: 1, pattern: 1 });
+conceptSchema.index({ isArchived: 1, tags: 1 });
+conceptSchema.index({ isArchived: 1, views: -1 });
+conceptSchema.index({ isArchived: 1, bookmarks: -1 });
+conceptSchema.index({ isArchived: 1, createdAt: -1 });
+
 const Concept = mongoose.models.Concept || mongoose.model('Concept', conceptSchema);
 
 export default Concept;
