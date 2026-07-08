@@ -5,31 +5,96 @@ import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import '../styles/dashboard.css';
 
+/**
+ * DashboardLayout — Reusable shell layout for all authenticated dashboard pages.
+ *
+ * Structure:
+ *   ┌────────────────────────────────────────────┐
+ *   │  Sidebar (fixed, 260px)  │  Navbar (sticky) │
+ *   │                          ├──────────────────┤
+ *   │                          │  <Outlet />      │
+ *   │                          │  (page content)  │
+ *   │                          ├──────────────────┤
+ *   │                          │  Footer          │
+ *   └────────────────────────────────────────────┘
+ *
+ * On screens < 1024px the sidebar becomes an overlay drawer
+ * toggled via the hamburger button in the Navbar.
+ */
 function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const toggleSidebar = () => setSidebarOpen((prev) => !prev);
+  const closeSidebar = () => setSidebarOpen(false);
+
   return (
-    <div className="min-h-screen bg-[#0B1120] text-[#F8FAFC] flex overflow-x-hidden relative">
-      {/* Background glow meshes */}
-      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-gradient-to-br from-primary-500/5 to-transparent rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-gradient-to-tr from-secondary-500/5 to-transparent rounded-full blur-[150px] pointer-events-none" />
+    <div
+      id="dashboard-layout"
+      style={{
+        minHeight: '100dvh',
+        background: 'var(--color-surface)',
+        color: 'var(--color-on-surface)',
+        display: 'flex',
+        overflowX: 'hidden',
+        position: 'relative',
+      }}
+    >
+      {/* ── Ambient background glow meshes ── */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'fixed',
+          top: '-15%',
+          left: '-10%',
+          width: '55%',
+          height: '55%',
+          background: 'radial-gradient(ellipse at center, rgba(99,102,241,0.06) 0%, transparent 70%)',
+          borderRadius: '50%',
+          filter: 'blur(80px)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'fixed',
+          bottom: '-15%',
+          right: '-10%',
+          width: '50%',
+          height: '50%',
+          background: 'radial-gradient(ellipse at center, rgba(6,182,212,0.05) 0%, transparent 70%)',
+          borderRadius: '50%',
+          filter: 'blur(80px)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
 
-      {/* Reusable Sidebar */}
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      {/* ── Sidebar ── */}
+      <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />
 
-      {/* Main layout frame */}
-      <div className="flex-1 flex flex-col min-w-0 min-h-screen">
-        {/* Reusable Navbar */}
-        <Navbar onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+      {/* ── Main content area (offset for fixed sidebar on desktop) ── */}
+      <div className="dashboard-main-area" style={{ position: 'relative', zIndex: 1 }}>
+        {/* Sticky top navbar */}
+        <Navbar onToggleSidebar={toggleSidebar} />
 
-        {/* Content Outlet Frame */}
-        <main className="flex-1 p-6 md:p-8 overflow-y-auto">
-          <div className="max-w-6xl mx-auto">
+        {/* Page content via React Router Outlet */}
+        <main
+          id="dashboard-main-content"
+          style={{
+            flex: 1,
+            padding: '32px 32px',
+            overflowY: 'auto',
+          }}
+          aria-label="Main content"
+        >
+          <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
             <Outlet />
           </div>
         </main>
 
-        {/* Reusable Footer */}
+        {/* Footer */}
         <Footer />
       </div>
     </div>

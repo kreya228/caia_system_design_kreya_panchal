@@ -46,11 +46,11 @@ export default defineConfig({
     rollupOptions: {
       output: {
         // Code-split vendor libs for better caching
-        manualChunks: {
-          react: ['react', 'react-dom'],
-          mui: ['@mui/material', '@emotion/react', '@emotion/styled'],
-          redux: ['@reduxjs/toolkit', 'react-redux'],
-          router: ['react-router-dom'],
+        manualChunks: (id) => {
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) return 'react';
+          if (id.includes('@mui/material') || id.includes('@emotion/react') || id.includes('@emotion/styled')) return 'mui';
+          if (id.includes('@reduxjs/toolkit') || id.includes('react-redux')) return 'redux';
+          if (id.includes('react-router-dom')) return 'router';
         },
       },
     },

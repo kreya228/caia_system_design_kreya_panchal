@@ -88,7 +88,9 @@ export const searchByContent = async (req, res, next) => {
   }
 };
 
-/
+/**
+ * GET /api/v1/search/tags
+ * Search concepts by tags.
  */
 export const searchByTags = async (req, res, next) => {
   try {
